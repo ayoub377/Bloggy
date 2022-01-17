@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+
+{% block navbar %}
+    <section class="s-pageheader">
+    {% include 'base_directory/navbar.html' %}
+    </section>
+{% endblock %}
+
+<!-- Bloc Article !-->
+
+{% block content %}
+
+    <section class="s-content">
+
+        <div class="row masonry-wrap">
+            <div class="masonry">
+
+                <div class="grid-sizer"></div>
+
+                {% for article in results %}
+                      <article class="masonry__brick entry format-standard" data-aos="fade-up">
+
+                    <div class="entry__thumb">
+                        <a href="single-standard.html" class="entry__thumb-link">
+                            <img src="images/thumbs/masonry/lamp-400.jpg"
+                                    srcset="images/thumbs/masonry/lamp-400.jpg 1x, images/thumbs/masonry/lamp-800.jpg 2x" alt="">
+                        </a>
+                    </div>
+
+                    <div class="entry__text">
+                        <div class="entry__header">
+
+                            <div class="entry__date">
+                                <a href="{% url 'Blog:get_article_detail_by_number' article.id %}">{{ article.date_published}}</a>
+                            </div>
+                            <h1 class="entry__title"><a href="{% url 'Blog:get_article_detail_by_number' article.id %}">{{ article.title}}</a></h1>
+
+                        </div>
+                        <div class="entry__excerpt">
+                            <p>
+                              {{ article.body|truncatewords:4 }}
+                            </p>
+                        </div>
+                        <div class="entry__meta">
+                            <span class="entry__meta-links">
+                                <a href="{% url 'Blog:get_category' article.category.slug %}">{{ article.category }}</a>
+                            </span>
+                        </div>
+                    </div>
+
+                      </article>
+                    <!-- end article -->
+
+                {% endfor %}
+
+
+            </div>
+            <!-- end masonry -->
+        </div>
+        <!-- end masonry-wrap -->
+    </section>
+{% endblock %}

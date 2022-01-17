@@ -1,0 +1,102 @@
+
+{% extends 'base.html' %}
+{% block navbar %}
+     <section class="s-pageheader">
+     {% include 'base_directory/navbar.html' %}
+     </section>
+{% endblock %}
+{% block content %}
+    <!-- s-content
+    ================================================== -->
+    <section class="s-content">
+
+        <div class="row narrow">
+            <div class="col-full s-content__header" data-aos="fade-up">
+                <h1>Category:{{ category.name }} </h1>
+
+                <p class="lead">Dolor similique vitae. Exercitationem quidem occaecati iusto. Id non vitae enim quas error dolor maiores ut. Exercitationem earum ut repudiandae optio veritatis animi nulla qui dolores.</p>
+            </div>
+        </div>
+
+        <div class="row masonry-wrap">
+            <div class="masonry">
+
+                <div class="grid-sizer"></div>
+
+               {% for article in page_obj %}
+                                   <article class="masonry__brick entry format-standard" data-aos="fade-up">
+
+                    <div class="entry__thumb">
+                        <a href="single-standard.html" class="entry__thumb-link">
+                            <img src="images/thumbs/masonry/sydney-400.jpg"
+                                 srcset="images/thumbs/masonry/sydney-400.jpg 1x, images/thumbs/masonry/sydney-800.jpg 2x" alt="">
+                        </a>
+                    </div>
+
+                    <div class="entry__text">
+                        <div class="entry__header">
+
+                            <div class="entry__date">
+                                <a href="{% url 'Blog:get_article_detail_by_number' article.id %}">
+                                    {{ article.published_date }}</a>
+                            </div>
+                            <h1 class="entry__title">
+                                <a href="{% url 'Blog:get_article_detail_by_number' article.id %}">{{ article.title}}</a>
+                            </h1>
+
+                        </div>
+                        <div class="entry__excerpt">
+                            <p>
+                            {{ article.body | truncatewords:4 }}
+                            </p>
+                        </div>
+                        <div class="entry__meta">
+                            <span class="entry__meta-links">
+                                <a href="{% url 'Blog:get_category' article.category.slug %}">{{ article.category }}</a>
+
+                            </span>
+                        </div>
+                    </div>
+
+                </article> <!-- end article -->
+
+                {% endfor %}
+
+
+            </div> <!-- end masonry -->
+        </div> <!-- end masonry-wrap -->
+
+    <!-- Start Pagination !-->
+
+        <div class="row">
+            <div class="col-full">
+                <nav class="pgn">
+                    <ul>
+                        {% if page_obj.has_previous %}
+                        <li>
+                            <a class="pgn__prev" href="?page={{ page_obj.previous_page_number }}">Prev</a>
+                        </li>
+                        {% endif %}
+                    {% for page in page_obj.paginator.page_range %}
+                        <li>
+                            <a class="pgn__num
+                                 {% if page_obj.number == page %}current{% endif %}" href="?page={{page }}">{{ page }}
+                            </a>
+                        </li>
+                    {% endfor %}
+                       {% if page_obj.has_next %}
+                        <li>
+                            <a class="pgn__next" href="?page={{ page_obj.next_page_number }}">Next</a>
+                        </li>
+                    {% endif %}
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    <!-- End Pagination !-->
+
+    </section>
+    <!-- s-content -->
+
+
+  {% endblock %}
