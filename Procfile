@@ -1,5 +1,1 @@
-web:
-gunicorn
-Blog_lucky.wsgi
---log-file
--
+web: gunicorn Blog_lucky.wsgi:application --log-file -
