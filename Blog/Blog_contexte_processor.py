@@ -10,4 +10,4 @@ def get_categories(request):
 
 def get_tags(request):
     tags = Tag.objects.all()
-    return {'tags':tags}
+    return {'tags': tags}

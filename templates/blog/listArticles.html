@@ -26,14 +26,9 @@
                 <div class="grid-sizer"></div>
 
                {% for article in articles %}
-                                   <article class="masonry__brick entry format-standard" data-aos="fade-up">
+                   <article class="masonry__brick entry format-standard" data-aos="fade-up">
 
-                    <div class="entry__thumb">
-                        <a href="single-standard.html" class="entry__thumb-link">
-                            <img src="images/thumbs/masonry/sydney-400.jpg"
-                                 srcset="images/thumbs/masonry/sydney-400.jpg 1x, images/thumbs/masonry/sydney-800.jpg 2x" alt="">
-                        </a>
-                    </div>
+
 
                     <div class="entry__text">
                         <div class="entry__header">
@@ -49,7 +44,7 @@
                         </div>
                         <div class="entry__excerpt">
                             <p>
-                            {{ article.body | truncatewords:4 }}
+                            {{ article.body | truncatewords:4 | safe  }}
                             </p>
                         </div>
                         <div class="entry__meta">

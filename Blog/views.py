@@ -35,11 +35,10 @@ def Articles_by_category(request, category_slug=None):
 
 
 # Get a particular article
-
-class ArticleDetail(DetailView):
-    model = Article
-    template_name = 'blog/article_detail.html'
-    context_object_name = 'article'
+def getArticleByid(request, pk):
+    article = Article.objects.get(pk=pk)
+    tags_article = article.tags.all()
+    return render(request,'blog/article_detail.html',{'article':article,'tags_article':tags_article})
 
 
 # search For Article

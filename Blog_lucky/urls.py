@@ -21,6 +21,7 @@ from Blog_lucky import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('tinymce/', include('tinymce.urls')),
     path('blog/', include('Blog.urls', namespace='Blog'))
 
 ]

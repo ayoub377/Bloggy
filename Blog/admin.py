@@ -1,6 +1,8 @@
 from django.contrib import admin
 
 # Register your models here.
+from django.contrib.admin import SimpleListFilter
+
 from Blog.models import Category, Profile, Article, Comment
 
 
@@ -15,7 +17,6 @@ admin.site.register(Profile, ProfileAdmin)
 
 
 class CategoryAdmin(admin.ModelAdmin):
-
     list_display = ('name', 'slug', 'image', 'approved')
     list_filter = ('name', 'approved',)
     search_fields = ('name',)
@@ -27,11 +28,27 @@ class CategoryAdmin(admin.ModelAdmin):
 admin.site.register(Category, CategoryAdmin)
 
 
-class ArticleAdmin(admin.ModelAdmin):
+# custom filter to Filter By Category name
 
+class CategorieFilter(SimpleListFilter):
+    title = 'categories'  # or use _('country') for translated title
+    parameter_name = 'categorie'
+
+    def lookups(self, request, model_admin):
+        categories = set([article.category for article in Article.objects.all()])
+        return [(c.id, c.name) for c in categories]
+
+    def queryset(self, request, queryset):
+        if self.value():
+            return queryset.filter(category__id__exact=self.value())
+        else:
+            return queryset
+
+
+class ArticleAdmin(admin.ModelAdmin):
     list_display = ('category', 'title', 'slug', 'author', 'image', 'image_credit',
-                    'body', 'date_published', 'status')
-    list_filter = ('status', 'date_created', 'date_published', 'author',)
+                    'date_published', 'status')
+    list_filter = ('status', 'date_created', 'date_published', 'author', CategorieFilter)
     search_fields = ('title', 'body',)
     prepopulated_fields = {'slug': ('title',)}
     raw_id_fields = ('author',)
@@ -45,8 +62,7 @@ admin.site.register(Article, ArticleAdmin)
 
 
 class CommentAdmin(admin.ModelAdmin):
-
-    list_display = ('name', 'email', 'comment', 'article', 'date_created', )
+    list_display = ('name', 'email', 'comment', 'article', 'date_created',)
     list_filter = ('date_created', 'name',)
     search_fields = ('name', 'article', 'comment')
     date_hierarchy = 'date_created'
@@ -56,4 +72,3 @@ class CommentAdmin(admin.ModelAdmin):
 
 # Registers the comment model at the admin backend.
 admin.site.register(Comment, CommentAdmin)
-

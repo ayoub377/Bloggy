@@ -47,7 +47,7 @@
                         </div>
                         <div class="entry__excerpt">
                             <p>
-                            {{ article.body | truncatewords:4 }}
+                            {{ article.body | truncatewords:4 | safe }}
                             </p>
                         </div>
                         <div class="entry__meta">
